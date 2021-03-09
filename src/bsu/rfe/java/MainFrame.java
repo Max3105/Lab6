@@ -1,6 +1,5 @@
 package bsu.rfe.java;
 
-mport javax.swing.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -51,3 +50,52 @@ public class MainFrame extends JFrame {
                     field.addBall();
             }
         };
+        ballMenu.add(add10BallAction);
+
+        Action resetAction = new AbstractAction("Сброс") {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                pauseMenuItem.setEnabled(false);
+                resumeMenuItem.setEnabled(false);
+                resetMenuItem.setEnabled(false);
+                field.reset();
+            }
+        };
+        menuBar.add(ballMenu);
+        startMenuItem = ballMenu.add(startAction);
+        resetMenuItem = ballMenu.add(resetAction);
+        resetMenuItem.setEnabled(false);
+        JMenu controlMenu = new JMenu("Управление");
+        menuBar.add(controlMenu);
+        Action pauseAction = new AbstractAction("Приостановить движение") {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                field.pause();
+                pauseMenuItem.setEnabled(false);
+                resumeMenuItem.setEnabled(true);
+            }
+        };
+        pauseMenuItem = controlMenu.add(pauseAction);
+        pauseMenuItem.setEnabled(false);
+
+        Action resumeAction = new AbstractAction("Возобновить движение") {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                field.resume();
+                pauseMenuItem.setEnabled(true);
+                resumeMenuItem.setEnabled(false);
+            }
+        };
+        resumeMenuItem = controlMenu.add(resumeAction);
+        resumeMenuItem.setEnabled(false);
+        // Добавить в центр граничной компоновки поле Field
+        getContentPane().add(field, BorderLayout.CENTER);
+    }
+    // Главный метод приложения
+    public static void main(String[] args) {
+        // Создать и сделать видимым главное окно приложения
+        MainFrame frame = new MainFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+}
