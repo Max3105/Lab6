@@ -76,3 +76,53 @@ public class Field extends JPanel {
         canvas.drawString(String.valueOf(balls.size()), WIDTH, HEIGHT);
     }
 
+    // Метод добавления нового мяча в список
+    public void addBall() {
+        //Заключается в добавлении в список нового экземпляра BouncingBall
+        // Всю инициализацию положения, скорости, размера, цвета
+        // BouncingBall выполняет сам в конструкторе
+        balls.add(new BouncingBall(this));
+    }
+
+    public synchronized void reset() {
+        balls.clear();
+    }
+    // Метод синхронизированный, т.е. только один поток может
+    // одновременно быть внутри
+    public synchronized void pause() {
+        //иключить режим паузы
+        paused = true;
+    }
+
+    // Метод синхронизированный, т.е. только один поток может
+    // одновременно быть внутри
+    public synchronized void resume() {
+        // Выключить режим паузы
+        paused = false;
+        stopRed = false; //задание
+        // Будим все ожидающие продолжения потоки
+        notifyAll();
+    }
+
+    // Синхронизированный метод проверки, может ли мяч двигаться
+    // (не включен ли режим паузы?)
+    public synchronized void canMove(BouncingBall ball) throws InterruptedException {
+        if(paused && ball.getColor().getRed() >  ball.getColor().getBlue() +  ball.getColor().getGreen()) {
+            // Если режим паузы включен, то поток, зашедший
+            // внутрь данного метода, засыпает
+            wait();
+        }
+        //задание
+//        if(ball.getColor().getRed() >  ball.getColor().getBlue() +  ball.getColor().getGreen()){
+//            wait();
+//        }
+    }
+
+    //задание
+    //Пауза для красных
+    public synchronized void stopRed() {
+        stopRed = true;
+
+    }
+}
+
