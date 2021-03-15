@@ -139,5 +139,6 @@ public class BouncingBall implements Runnable {
     public Color getColor() {
         return color;
     }
+
 }
 

@@ -67,6 +67,7 @@ public class MainFrame extends JFrame {
         resetMenuItem.setEnabled(false);
         JMenu controlMenu = new JMenu("Управление");
         menuBar.add(controlMenu);
+
         Action pauseAction = new AbstractAction("Приостановить движение") {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -77,7 +78,7 @@ public class MainFrame extends JFrame {
         };
         pauseMenuItem = controlMenu.add(pauseAction);
         pauseMenuItem.setEnabled(false);
-
+;
         Action resumeAction = new AbstractAction("Возобновить движение") {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
