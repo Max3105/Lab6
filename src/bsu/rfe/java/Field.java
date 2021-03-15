@@ -92,7 +92,7 @@ public class Field extends JPanel {
     public synchronized void pause() {
         //иключить режим паузы
         paused = true;
-        pausedAll = true;
+
 
     }
 
