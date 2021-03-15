@@ -10,7 +10,7 @@ public class Field extends JPanel {
     private boolean paused;
     //флаг приостановленности движения красных шаров
     private boolean stopRed;
-
+    private boolean pausedAll;
     //динамический список скачущих мячей
     private ArrayList<BouncingBall> balls = new ArrayList<BouncingBall>(10);
     public ArrayList<BouncingBall> getBalls() { return balls; }
@@ -92,14 +92,23 @@ public class Field extends JPanel {
     public synchronized void pause() {
         //иключить режим паузы
         paused = true;
+        pausedAll = true;
+
     }
 
+    public synchronized void pauseAll() {
+        //иключить режим паузы
+
+        pausedAll = true;
+
+    }
     // Метод синхронизированный, т.е. только один поток может
     // одновременно быть внутри
     public synchronized void resume() {
         // Выключить режим паузы
         paused = false;
-        stopRed = false; //задание
+        pausedAll = false;
+
         // Будим все ожидающие продолжения потоки
         notifyAll();
     }
@@ -107,22 +116,18 @@ public class Field extends JPanel {
     // Синхронизированный метод проверки, может ли мяч двигаться
     // (не включен ли режим паузы?)
     public synchronized void canMove(BouncingBall ball) throws InterruptedException {
-        if(paused && ball.getRadius()<=10) {
+        if (paused && ball.getRadius() <= 10) {
             // Если режим паузы включен, то поток, зашедший
             // внутрь данного метода, засыпает
             wait();
+
         }
-
-        //задание
-//        if(ball.getColor().getRed() >  ball.getColor().getBlue() +  ball.getColor().getGreen()){
-//            wait();
+        if (pausedAll) {
+            // Если режим паузы включен, то поток, зашедший
+            // внутрь данного метода, засыпает
+            wait();
 //        }
-    }
-
-    //задание
-    //Пауза для красных
-    public synchronized void stopRed() {
-        stopRed = true;
+        }
 
     }
 }
