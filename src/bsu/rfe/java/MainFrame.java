@@ -14,6 +14,8 @@ public class MainFrame extends JFrame {
     private JMenuItem resetMenuItem;
     private JMenuItem pauseMenuItem;
     private JMenuItem resumeMenuItem;
+    private JMenuItem pauseMenuItemAll;
+    private JMenuItem resumeMenuItemAll;
 
     // Поле, по которому прыгают мячи
     private Field field = new Field();
@@ -72,12 +74,12 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
 
                 field.pauseAll();
-                pauseMenuItem.setEnabled(false);
-                resumeMenuItem.setEnabled(true);
+                pauseMenuItemAll.setEnabled(false);
+                resumeMenuItemAll.setEnabled(true);
             }
         };
-        pauseMenuItem = controlMenu.add(pauseActionAll);
-        pauseMenuItem.setEnabled(false);
+        pauseMenuItemAll = controlMenu.add(pauseActionAll);
+        pauseMenuItemAll.setEnabled(true);
         Action pauseAction = new AbstractAction("Приостановить движение") {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
